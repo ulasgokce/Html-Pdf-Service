@@ -22,6 +22,7 @@ app.post("/get-base64", jsonParser, function (req, res) {
     };
 
     pdf.create(html, options).toBuffer((err, buffer) => {
+        if(err) console.log(err);
         try {
             res.send(buffer.toString('base64'))
         } catch (error) {
