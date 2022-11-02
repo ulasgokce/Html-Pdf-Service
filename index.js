@@ -10,22 +10,22 @@ const port = process.env.PORT || 5002;
 const app = express();
 
 app.listen(port, () => {
-  console.log("getStarted", new Date());
+    console.log("getStarted", new Date());
 });
-app.post("/get-base64", jsonParser,function (req, res) {
+app.post("/get-base64", jsonParser, function (req, res) {
 
-    console.log(req.body.html)
     var html = req.body.html;
-    var options = { 
-    "format": "A4",        // allowed units: A3, A4, A5, Legal, Letter, Tabloid
-    "orientation": "portrait", // portrait or landscape
-     };
-    
+    var options = {
+        childProcessOptions: { env: { OPENSSL_CONF: '/dev/null' } },
+        "format": "A4",        // allowed units: A3, A4, A5, Legal, Letter, Tabloid
+        "orientation": "portrait", // portrait or landscape
+    };
+
     pdf.create(html, options).toBuffer((err, buffer) => {
         try {
-       res.send(buffer.toString('base64'))
+            res.send(buffer.toString('base64'))
         } catch (error) {
             console.log(error);
         }
-      })
+    })
 });
