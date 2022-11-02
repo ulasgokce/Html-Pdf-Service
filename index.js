@@ -14,6 +14,7 @@ app.listen(port, () => {
 });
 app.post("/get-base64", jsonParser,function (req, res) {
 
+    console.log(req.body.html)
     var html = req.body.html;
     var options = { 
     "format": "A4",        // allowed units: A3, A4, A5, Legal, Letter, Tabloid
@@ -21,6 +22,10 @@ app.post("/get-base64", jsonParser,function (req, res) {
      };
     
     pdf.create(html, options).toBuffer((err, buffer) => {
+        try {
        res.send(buffer.toString('base64'))
+        } catch (error) {
+            console.log(error);
+        }
       })
 });
